@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/changepanel.tsx","./src/components/diffpane.tsx","./src/components/docviewer.tsx","./src/components/dropzone.tsx","./src/components/skeleton.tsx","./src/components/summarypanel.tsx","./src/lib/api.ts"],"version":"5.9.3"}
