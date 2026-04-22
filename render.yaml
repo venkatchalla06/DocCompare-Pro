@@ -2,8 +2,9 @@ services:
   # ── Backend API ──────────────────────────────────────────────────────────────
   - type: web
     name: doccompare-api
-    runtime: docker
-    dockerfilePath: ./Dockerfile.render
+    runtime: python
+    buildCommand: bash render-build.sh
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     plan: free
     envVars:
       - key: REDIS_URL
@@ -19,6 +20,8 @@ services:
         value: "604800"
       - key: FRONTEND_ORIGIN
         value: https://doccompare-pro.onrender.com
+      - key: PYTHON_VERSION
+        value: "3.12.0"
 
   # ── Frontend static site ─────────────────────────────────────────────────────
   - type: web
