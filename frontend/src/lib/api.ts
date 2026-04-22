@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE = import.meta.env.VITE_API_BASE ?? '/api'
+const BASE = (import.meta as unknown as { env: Record<string, string> }).env.VITE_API_BASE ?? '/api'
 export const api = axios.create({ baseURL: BASE })
 
 export interface CompareResponse {
