@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-export const api = axios.create({ baseURL: '/api' })
+const BASE = import.meta.env.VITE_API_BASE ?? '/api'
+export const api = axios.create({ baseURL: BASE })
 
 export interface CompareResponse {
   id: string
