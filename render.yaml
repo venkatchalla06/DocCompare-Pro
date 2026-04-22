@@ -30,7 +30,6 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     rootDir: frontend
-    plan: free
     envVars:
       - key: VITE_API_BASE
         value: https://doccompare-api.onrender.com/api
