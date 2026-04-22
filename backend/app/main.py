@@ -35,9 +35,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+_cors_origins = [
+    "http://localhost:5173",
+    "http://localhost:8090",
+    "https://doccompare-pro.onrender.com",
+    os.getenv("FRONTEND_ORIGIN", ""),
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[o for o in _cors_origins if o],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,0 +1,47 @@
+services:
+  # ── Backend API ──────────────────────────────────────────────────────────────
+  - type: web
+    name: doccompare-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: free
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: doccompare-redis
+          property: connectionString
+      - key: UPLOAD_DIR
+        value: /tmp/doccompare/uploads
+      - key: RESULT_DIR
+        value: /tmp/doccompare/results
+      - key: RESULT_TTL
+        value: "604800"
+      - key: FRONTEND_ORIGIN
+        value: https://doccompare-pro.onrender.com
+
+  # ── Frontend static site ─────────────────────────────────────────────────────
+  - type: web
+    name: doccompare-pro
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: frontend
+    plan: free
+    envVars:
+      - key: VITE_API_BASE
+        value: https://doccompare-api.onrender.com/api
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  - type: redis
+    name: doccompare-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
